@@ -1,17 +1,70 @@
-\documentclass{article}
+\documentclass[12pt]{article}
+
+\usepackage
+[
+        %a4paper,% other options: a3paper, a5paper, etc
+         left=1.00in,
+         right=1.00in,
+         top=1.00in,
+         bottom=1.00in,
+]
+{geometry}
+
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{paralist}
+\usepackage{graphicx}
+\usepackage{epsfig} %For pictures: screened artwork should be set up with an 85 or 100 line screen
+\usepackage[utf8]{inputenc}
+\usepackage{bm}
+\usepackage{rotating} 
+\usepackage{enumitem} 
+\usepackage{url}
+\usepackage{xspace} 
+\usepackage{wrapfig}
+\usepackage{verbatim} 
+\usepackage{changepage}   % for the adjustwidth environment
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{graphics}
+\usepackage[tight]{subfigure}
+%\usepackage{float}
+\usepackage{floatrow} % not compatible with float
+\usepackage{times} 
+\usepackage{pifont}
+\usepackage{soul}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{fancyhdr}
 \usepackage[utf8]{inputenc}
 \usepackage{yfonts}
 
-\title{NASA2020}
-\author{migirditch }
+\title{\textbf{DRAFT}\linebreak Simultaneous Multi-scale Markov Decision Process}
+\author{Sam Migirditch}
 \date{February 2020}
 
 \begin{document}
 
 \maketitle
 
-\section{\textswab{Introduction}}
-\textswab{I'll add content in the morning.}
+\section{Project Summary [approx 1000 chars]}
+
+Trajectory planning for robotics is a well studied problem but finding safe paths through risky and uncertain terrain remains challenging. Many proposed solutions have found moderate success but all have their limitations. Markov Decision Processes (MDPs) can theoretically find optimal solutions, but in practice are limited by their costly dependence on the number of states that compose them. By Multi-Scale MDPs (MSMDPs), the efficiency of roll out sampling can be radically increased and problems of indistinguishable maxima can be reduced. Further benefits come from utilizing parametrically defined policy functions on multiple scales eliminates the need for trajectory tracking controllers that other methods require and gives vehicles extreme resilience to perturbations in position. 
+
+A traditional MDP is run returning a macroscopic policy that defines checkpoint positions of a given step size from an initial state to a goal state. One or more trajectories are sampled from the starting state to some intermediary state along n steps of the macroscopic policy. The macroscopic trajectories are pause at an intermediate point when the variance of their state distribution reaches some preset ratio of the macroscopic step size (there may be some Lyapunov spectrum optimizations we could make here!). For the single macroscopic trajectory case, the vehicle may now immediately start out with a microscopic policy that returns kinematic instructions (linear and angular velocity) that was derived from a reward function that optimizes for proximity to the next point in the  macroscopic trajectory, alignment of the velocity vector to some (potentially smoothed) curve along the macroscopic trajectory or some combination of these as well as any defined reward field. That is to say the microscopic policy is defined in terms of the macroscopic one $\pi_{micro}(s_t,s_{next}) \textrm{ s.t. } s_{next} \in \{\textrm{macroscopic trajectory}\}$. Any disturbance function $\phi$ can also be learned or and applied on the microscopic policy.   When the vehicle reaches the final intermediate point, a new macroscopic trajectory, or set of trajectories are developed and the process is repeated until a goal is reached. 
+
+\section{Project Description}
+
+\begin{abstract}
+Many frameworks have been proposed for finding and following optimal pathways to objectives in robotics. 
+\end{abstract}
+\textbf{Previous work}
+Previous works have used different approaches to limit both value updates and policy updates to a promising subset of promising states. These results depend on the assumption that dead reackoning is good, that there is little difference between the selected action and the performed action, and that perturbations will not knock the vehicle out of the promising states into a region where the value and policy functions are not optimized to perform.
+
+
+
 \end{document}
 
+## scraps
+# Because both policy functions are defined everywhere, if the microscopic MDP cannot generate a solution that converges onto the macroscopic one due to sudden or extreme perturbation from its initial position, the microscopic policy will still productive actions because it encodes 
 
