@@ -39,7 +39,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{yfonts}
 
-\title{\textbf{DRAFT}\linebreak Simultaneous Multi-scale Markov Decision Process}
+\title{\textbf{DRAFT}\linebreak Simultaneous Multi-Scale Markov Decision Process}
 \author{Sam Migirditch}
 \date{February 2020}
 
@@ -47,20 +47,37 @@
 
 \maketitle
 
-\section{Project Summary [approx 1000 chars]}
+\newpage
+\section{Project Summary}
 
-Trajectory planning for robotics is a well studied problem but finding safe paths through risky and uncertain terrain remains challenging. Many proposed solutions have found moderate success but all have their limitations. Markov Decision Processes (MDPs) can theoretically find optimal solutions, but in practice are limited by their costly dependence on the number of states that compose them. By Multi-Scale MDPs (MSMDPs), the efficiency of roll out sampling can be radically increased and problems of indistinguishable maxima can be reduced. Further benefits come from utilizing parametrically defined policy functions on multiple scales eliminates the need for trajectory tracking controllers that other methods require and gives vehicles extreme resilience to perturbations in position. 
+Trajectory planning for robotics is a well studied problem but finding safe paths through risky and uncertain environments remains challenging. Many proposed solutions have found moderate success but all have their limitations. Markov Decision Processes (MDPs) can theoretically find optimal solutions, but in practice are limited by their costly dependence on the number of states that compose them. By using Multi-Scale MDPs (MSMDPs), the efficiency of roll out sampling may be radically increased and problems of indistinguishable maxima could be reduced. Further benefits come from utilizing parametrically defined policy functions on multiple scales eliminates the need for trajectory tracking controllers that other methods require and gives vehicles extreme resilience to perturbations in position. This work aims to test these methods in simulation and in a physical platform, adding to the relatively small body of work to deploy MDP approaches in physical experiments. 
 
-A traditional MDP is run returning a macroscopic policy that defines checkpoint positions of a given step size from an initial state to a goal state. One or more trajectories are sampled from the starting state to some intermediary state along n steps of the macroscopic policy. The macroscopic trajectories are pause at an intermediate point when the variance of their state distribution reaches some preset ratio of the macroscopic step size (there may be some Lyapunov spectrum optimizations we could make here!). For the single macroscopic trajectory case, the vehicle may now immediately start out with a microscopic policy that returns kinematic instructions (linear and angular velocity) that was derived from a reward function that optimizes for proximity to the next point in the  macroscopic trajectory, alignment of the velocity vector to some (potentially smoothed) curve along the macroscopic trajectory or some combination of these as well as any defined reward field. That is to say the microscopic policy is defined in terms of the macroscopic one $\pi_{micro}(s_t,s_{next}) \textrm{ s.t. } s_{next} \in \{\textrm{macroscopic trajectory}\}$. Any disturbance function $\phi$ can also be learned or and applied on the microscopic policy.   When the vehicle reaches the final intermediate point, a new macroscopic trajectory, or set of trajectories are developed and the process is repeated until a goal is reached. 
+A traditional MDP is run returning a macroscopic policy that defines checkpoint positions of a given step size from an initial state towards a goal state. One or more trajectories are sampled from the starting state to some intermediary state along n steps of the macroscopic policy. The macroscopic trajectories are pause at an intermediate point when the variance of their state distribution reaches some preset ratio of the macroscopic step size. For the single macroscopic trajectory case, the vehicle may now immediately start out with a microscopic policy that returns kinematic instructions (linear and angular velocity) that were derived from a reward function that optimizes for proximity to the next point in the  macroscopic trajectory, alignment of the velocity vector to some (potentially smoothed) curve along the macroscopic trajectory or some combination of these as well as any defined reward field. That is to say the microscopic policy is defined in terms of the macroscopic one $\pi_{micro}(s_t,a_{next}) \textrm{ s.t. } a_{next} \in \{\textrm{macroscopic trajectory}\}$. When the vehicle reaches the final intermediate point, a new macroscopic trajectory, or set of trajectories are developed and the process is repeated until a goal is reached.
 
+This separation of scales has several implicit benefits, firstly, the microscopic policy function can be largely evolved for a generic situation offline and any disturbance function $\phi$ can be learned or and applied here. Because the microscopic policy is defined in terms of the local macroscopic policy it remains valid between different macroscopic policies. $\pi_{micro}$ is characterized by the disturbance function $\phi$ and the physics of the type of environment. Second, in situations with a time changing environment ( for example, an aquatic drone in a current ) and intelligent responses are needed rapidly, potentially faster than a new $\pi_{macro}$ can be solved for, a generalized microscopic policy can be viewed as a controller that can be fed a pre-existing fall back policy $\pi_{micro}(s_t,a_{fallback})$. Continuing the autonomous boat example, in the event that the boat becomes trapped in a current unseen by the macroscopic model, a reasonable fallback policy might direct the microscopic policy to directs it to travel perpendicular to the perceived current. Finally, the multi-scale approach may help reduce the impact of indistinguishable maxima. In macroscopic regions of the environment where the divergence of the macroscopic policy is high, meaning that different nearby diverging trajectories return similar rewards, using rollouts over these trajectories with $\pi_{micro}$ may reveal significant differences in the reward of trajectories that were missed at coarser scales.
+
+\newpage
 \section{Project Description}
 
 \begin{abstract}
 Many frameworks have been proposed for finding and following optimal pathways to objectives in robotics. 
 \end{abstract}
 \textbf{Previous work}
-Previous works have used different approaches to limit both value updates and policy updates to a promising subset of promising states. These results depend on the assumption that dead reackoning is good, that there is little difference between the selected action and the performed action, and that perturbations will not knock the vehicle out of the promising states into a region where the value and policy functions are not optimized to perform.
+Previous works have used different approaches to limit both value updates and policy updates to a promising subset of promising states. These results depend on the assumption that dead reckoning is good, that there is little difference between the selected action and the performed action, and that perturbations will not knock the vehicle out of the promising states into a region where the value and policy functions are not optimized to perform.
 
-
+\section{Personal Statement}
+\textbf{The Personal Statement shall respond to the
+prompt: How do you envision graduate school preparing you for a career that allows you
+to contribute to expanding scientific understanding and its application to NASA’s
+mission?
+Describe your personal, educational and/or professional experiences that inspire and
+motivate your decision to pursue advanced studies in science, technology, engineering
+or mathematics (STEM) and in NASA-related research. Include specific examples of any
+research and/or professional activities in which you have participated. Present a concise
+description of the activities, highlight the results and discuss how these activities have
+prepared you to seek a graduate degree. Specify your role in the activity including the
+extent to which you worked independently and/or as part of a team. Describe the
+contributions of your activity to advancing knowledge in STEM fields, as well as the
+potential impacts in NASA Missions.}
 
 \end{document}
